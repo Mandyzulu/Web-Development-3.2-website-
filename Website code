@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpookEstates | Marketplace for the Uncanny & Abandoned</title>
+    <!-- Google Fonts for Creepy aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Variable Definitions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --bg-dark: #0a0a0e;
+            --card-bg: #13141f;
+            --card-border: #232538;
+            --accent-purple: #9d4edd;
+            --accent-purple-hover: #7b2cbf;
+            --accent-green: #00e676;
+            --accent-green-hover: #00c853;
+            --text-main: #f1f1f5;
+            --text-muted: #9598b5;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Typography & Header Branding */
+        .brand-title {
+            font-family: 'Creepster', cursive;
+            color: var(--accent-purple);
+            text-shadow: 0 0 12px rgba(157, 78, 221, 0.4);
+            letter-spacing: 2px;
+        }
+
+        /* Navigation Bar */
+        header {
+            background-color: rgba(19, 20, 31, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-purple);
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-purple {
+            background-color: var(--accent-purple);
+            color: #fff;
+        }
+
+        .btn-purple:hover {
+            background-color: var(--accent-purple-hover);
+            box-shadow: 0 0 12px rgba(157, 78, 221, 0.5);
+        }
+
+        .btn-green {
+            background-color: var(--accent-green);
+            color: #000;
+        }
+
+        .btn-green:hover {
+            background-color: var(--accent-green-hover);
+            box-shadow: 0 0 12px rgba(0, 230, 118, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 1.5rem 3rem 1.5rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Features / Navigation Cards Section */
+        .section-container {
+            max-width: 1200px;
+            margin: 2rem auto 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.1);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-scout {
+            background-color: rgba(157, 78, 221, 0.2);
+            color: var(--accent-purple);
+            border: 1px solid var(--accent-purple);
+        }
+
+        .badge-owner {
+            background-color: rgba(0, 230, 118, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+
+        .spook-score {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ff5252;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Quick Stats Banner */
+        .stats-banner {
+            background-color: var(--card-bg);
+            border-y: 1px solid var(--card-border);
+            padding: 2.5rem 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Modal for Reporting Properties */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent-purple);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            background-color: #07070a;
+            border-top: 1px solid var(--card-border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo brand-title">SpookEstates</a>
+            <nav>
+                <a href="#spotter-section" class="active">Spotter Reports</a>
+                <a href="#owner-section">Owner Directory</a>
+                <a href="#auctions">Auctions</a>
+                <button class="btn btn-purple" onclick="openModal()">+ Report a Spook</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="brand-title" style="font-size: 3.5rem;">SpookEstates</h1>
+        <p>The marketplace for the uncanny, abandoned, and haunted real estate. Buy, sell, or bid on unlisted locations or owner-verified haunted properties.</p>
+        <div class="hero-buttons">
+            <a href="#spotter-section" class="btn btn-purple">Explore Spotter Feed</a>
+            <a href="#owner-section" class="btn btn-green">View Owner Listings</a>
+            <button class="btn btn-outline" onclick="openModal()">Report Local Property</button>
+        </div>
+    </section>
+
+    <!-- Quick Stats Bar -->
+    <div class="stats-banner">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number">1,248</div>
+                <div class="stat-label">Spotter Reported Homes</div>
+            </div>
+            <div>
+                <div class="stat-number">312</div>
+                <div class="stat-label">Owner Direct Listings</div>
+            </div>
+            <div>
+                <div class="stat-number">$14.2M</div>
+                <div class="stat-label">Haunted Volume Traded</div>
+            </div>
+            <div>
+                <div class="stat-number">88/100</div>
+                <div class="stat-label">Avg Spook Score</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="section-container" id="spotter-section">
+        <div class="section-title">
+            <span>👻 Community Spotter Reports (Unclaimed & Abandoned)</span>
+        </div>
+        <div class="grid-3">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=600&q=80" alt="The Grey Lady Mansion" class="card-img">
+                <div class="card-body">
+                    <span class="badge badge-scout">Spotter Discovery</span>
+                    <h3 class="card-title">The Grey Lady Mansion</h3>
+                    <div class="spook-score">👻 Spook Score: 95/100 (Apparitions, Cold Spots)</div>
+                    <p class="card-desc">Discovered by spotter @GhostHunter. Unoccupied for 14 years. Bidding and off-market offers open.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-purple" style="flex: 1;" onclick="alert('Bidding interface opening...')">Place Bid</button>
+                        <button class="btn btn-outline" onclick="alert('Offer form opening...')">Offer to Buy</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Old Whispering Mill" class="card-img">
+                <div class="card-body">
+                    <span class="badge badge-scout">Spotter Discovery</span>
+                    <h3 class="card-title">Old Whispering Mill</h3>
+                    <div class="spook-score">👻 Spook Score: 82/100 (Disembodied Voices)</div>
+                    <p class="card-desc">Reported by local scout. High activity recorded during nighttime hours. Land title open for acquisition.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-purple" style="flex: 1;" onclick="alert('Bidding interface opening...')">Place Bid</button>
+                        <button class="btn btn-outline" onclick="alert('Offer form opening...')">Offer to Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner Directory Section -->
+    <div class="section-container" id="owner-section">
+        <div class="section-title">
+            <span>🔑 Owner Directory — Verified Direct Sales</span>
+        </div>
+        <div class="grid-3">
+            <!-- Owner Card 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505843513577-22bb7d21e455?auto=format&fit=crop&w=600&q=80" alt="Whispering Pines" class="card-img">
+                <div class="card-body">
+                    <span class="badge badge-owner">Owner Listed</span>
+                    <h3 class="card-title">The Whispering Pines Manor</h3>
+                    <div class="spook-score" style="color: var(--accent-green);"> Verified Seller Disclosures Available</div>
+                    <p class="card-desc">Direct from owner. Fully documented phantom footsteps and self-opening doors. Clear deed ready for transfer.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-green" style="width: 100%;" onclick="alert('Contacting Owner...')">Message Owner Directly</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Owner Card 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80" alt="The Crowley Estate" class="card-img">
+                <div class="card-body">
+                    <span class="badge badge-owner">Owner Listed</span>
+                    <h3 class="card-title">The Crowley Victorian Estate</h3>
+                    <div class="spook-score" style="color: var(--accent-green);"> Verified Seller Disclosures Available</div>
+                    <p class="card-desc">Seller confirmed supernatural manifestations. Perfect for paranormal tourism or bold homebuyers.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-green" style="width: 100%;" onclick="alert('Contacting Owner...')">Message Owner Directly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Reporting Ghosthouse -->
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title brand-title">Report a Ghosthouse</h2>
+            <form onsubmit="submitReport(event)">
+                <div class="form-group">
+                    <label>Property Name / Address</label>
+                    <input type="text" placeholder="e.g. 142 Elm Street Mansion" required>
+                </div>
+                <div class="form-group">
+                    <label>Listing Type</label>
+                    <select>
+                        <option>Spotter Finding (Unclaimed/Abandoned)</option>
+                        <option>I am the Owner (Direct Sale)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Reported Activity / Phenomena</label>
+                    <textarea rows="3" placeholder="Apparitions, cold spots, disembodied voices, etc." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Estimated Price ($)</label>
+                    <input type="number" placeholder="250000">
+                </div>
+                <button type="submit" class="btn btn-purple" style="width: 100%;">Submit Property Report</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 SpookEstates Inc. | The Marketplace for the Uncanny & Abandoned Real Estate.</p>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        function openModal() {
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('reportModal').style.display = 'none';
+        }
+
+        function submitReport(e) {
+            e.preventDefault();
+            alert('Property submitted successfully! Pending verification by community spotters.');
+            closeModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
